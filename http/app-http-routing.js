@@ -15,9 +15,18 @@ const server = http.createServer((request, response) => {
 
   switch (request.url) {
     case '/':
+    case '/home':
+    case '/index.html':
       basePath = createPath('index');
       response.statusCode = 200;
       break;
+
+    case '/about-us':
+      response.statusCode = 301;
+      response.setHeader('Location', '/contacts');
+      response.end();
+      break;
+
     case '/contacts':
       basePath = createPath('contacts');
       response.statusCode = 200;
