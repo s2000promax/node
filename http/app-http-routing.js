@@ -16,18 +16,22 @@ const server = http.createServer((request, response) => {
   switch (request.url) {
     case '/':
       basePath = createPath('index');
+      response.statusCode = 200;
       break;
     case '/contacts':
       basePath = createPath('contacts');
+      response.statusCode = 200;
       break;
     default:
       basePath = createPath('error');
+      response.statusCode = 404;
       break;
   }
 
   fs.readFile(basePath, (error, data) => {
     if (error) {
       console.log(error);
+      response.statusCode = 500;
       response.end();
     } else {
       response.write(data);
