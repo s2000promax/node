@@ -1,9 +1,21 @@
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+require('dotenv').config();
+const Post = require('./models/post');
 
 const app = express();
+
 const PORT = 4001;
+const password = process.env.USER_DBPASS;
+
+const db = `mongodb+srv://admin3d:${password}@cluster0.cqeuhs8.mongodb.net/node-test-database?retryWrites=true&w=majority`;
+
+mongoose.set('strictQuery', false)
+  .connect(db)
+  .then((res) => console.log('Connected to DB'))
+  .catch((error) => console.log(error));
 
 const createPath = (page) => path.resolve(__dirname, 'ejs-views', `${page}.ejs`);
 
@@ -66,15 +78,13 @@ app.get('/posts', (req, res) => {
 
 app.post('/add-post', (req, res) => {
   const  { title, author, text } = req.body;
-  const post = {
-    id: new Date(),
-    date: (new Date()).toLocaleDateString(),
-    title,
-    author,
-    text
-  };
-  //res.send(req.body);
-  res.render(createPath('post'), { post, title });
+  const post = new Post({ title, author, text });
+  post.save()
+    .then((result) => res.send(result))
+    .catch((error) => {
+      console.log(error);
+      res.render(createPath('error'), { title: 'Error' });
+    })
 });
 
 app.get('/add-post', (req, res) => {
