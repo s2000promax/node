@@ -31,7 +31,7 @@ mongoose.set('strictQuery', false)
 
 app.set('view engine', 'ejs');
 
-app.listen(PORT, 'localhost', (error) => {
+app.listen(PORT,(error) => {
   error ? console.log(errorMsg(error)) : console.log(successMsg(`listening port ${PORT}`));
 });
 
