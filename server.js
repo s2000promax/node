@@ -18,7 +18,7 @@ const successMsg = chalk.bgKeyword('green').white;
 
 const app = express();
 
-const PORT = process.env.USER_PORT;
+const PORT = process.env.PORT || process.env.USER_PORT;
 const dbName = process.env.USER_DBNAME;
 const password = process.env.USER_DBPASS;
 
