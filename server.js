@@ -4,6 +4,8 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+const postApiRoutes = require('./routes/api-post-routes');
+
 const postRouters = require('./routes/post-routes');
 const contactRouters = require('./routes/contact-routes');
 
@@ -34,6 +36,8 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('styles'));
 app.use(methodOverride('_method'));
+
+app.use(postApiRoutes);
 
 app.use(postRouters);
 app.use(contactRouters);
